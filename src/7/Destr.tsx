@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 type AddressType = {
     city: string,
@@ -17,15 +17,16 @@ type DestrPropsType = {
     man: ManType
 }
 
-const Destr: React.FC<DestrPropsType> = ( props ) => {
-    const {title} = props
-    const {name} = props.man
+const Destr: React.FC<DestrPropsType> = ( {title, man, ...props} ) => {
+
+
+    const [manOne, setManOne] = useState<ManType>(man)
 
     return (
         <div>
             <h1>{ title }</h1>
             <div>
-                { name }
+                { man.name }
             </div>
         </div>
     );
