@@ -1,12 +1,11 @@
 import {
-    addBooks,
+    addBooks, addCompany, CompaniesType,
     incAge,
-    movedToOtherHouse,
-    moveUser, updateBook,
+    moveUser, updateBook, updateCompany,
     upgradeLaptop,
     UserType,
     UserWithBooksType,
-    UserWithLaptopType
+    UserWithLaptopType, WithCompanyType
 } from './10';
 
 
@@ -90,6 +89,51 @@ test('JS to TS', () => {
 
     expect(user.books).toStrictEqual(['CSS', 'JS', 'React'])
     expect(awesomeUser.books).toStrictEqual(['CSS', 'TS', 'React'])
+
+})
+
+
+test('add company', () => {
+    const user: UserWithLaptopType & UserWithBooksType & WithCompanyType = {
+        name: 'Bob',
+        age: 32,
+        address: {title: 'Minsk', house: 12},
+        laptop: {title: 'Apple'},
+        books: ['CSS', 'JS', 'React'],
+        companies: [
+            {id: 1, title: 'EPAM'},
+            {id: 2, title: 'IT-INCUBATOR'},
+        ]
+
+    }
+    const awesomeUser = addCompany(user, 3, 'Anderson')
+
+    expect(user.companies.length).toBe(2)
+    expect(awesomeUser.companies.length).toBe(3)
+    expect(awesomeUser.companies[2]).toStrictEqual({id: 3, title: 'Anderson'})
+
+})
+
+test('associative array', () => {
+    const user: UserWithLaptopType & UserWithBooksType = {
+        name: 'Bob',
+        age: 32,
+        address: {title: 'Minsk', house: 12},
+        laptop: {title: 'Apple'},
+        books: ['CSS', 'JS', 'React'],
+    }
+
+    let companies: CompaniesType = {
+        'Bob': [
+            {id: 1, title: 'EPAM'},
+            {id: 2, title: 'IT-INCUBATOR'},
+        ]
+    }
+    const copyCompanies = updateCompany(companies, 'Bob',1, 'ЕПАМ')
+
+    expect(companies['Bob'][0].title).toBe('EPAM')
+    expect(copyCompanies['Bob'][0].title).toBe('ЕПАМ')
+
 
 })
 
